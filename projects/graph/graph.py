@@ -13,19 +13,28 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        # create key for the vertex in the dictionary, with an empty set as value
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        # check if the two verticies are in the graph
+        if v1 in self.vertices and v2 in self.vertices:
+            # add the connected vertex to the set of the first vertex
+            self.vertices[v1].add(v2)
+        else:
+            print("Error: inputed verticies not found in vertex set")
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        if vertex_id in self.vertices:
+            return self.vertices[vertex_id]
+        else:
+            return None
 
     def bft(self, starting_vertex):
         """
