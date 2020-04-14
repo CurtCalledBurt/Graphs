@@ -169,7 +169,7 @@ class Graph:
                     new_path += [child]
                     stack.push(new_path)
 
-    def dfs_recursive(self, vertex, destination_vertex, path=[], visited=set()):
+    def dfs_recursive(self, vertex, destination_vertex, path=None, visited=None):
         if not path:
             path = list()
         if not visited:
