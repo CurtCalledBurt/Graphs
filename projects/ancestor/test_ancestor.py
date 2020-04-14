@@ -2,8 +2,7 @@ import unittest
 from ancestor import earliest_ancestor
 
 class Test(unittest.TestCase):
-
-    '''
+    """
        10
      /
     1   2   4  11
@@ -11,7 +10,7 @@ class Test(unittest.TestCase):
       3   5   8
        \ / \   \
         6   7   9
-    '''
+    """
     def test_earliest_ancestor(self):
         test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
         self.assertEqual(earliest_ancestor(test_ancestors, 1), 10)
