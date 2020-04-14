@@ -170,24 +170,29 @@ class Graph:
                     stack.push(new_path)
 
     def dfs_recursive(self, vertex, destination_vertex, path=None, visited=None):
+        # instantiate the path
         if not path:
             path = list()
+        # instantiate our visited set
         if not visited:
             visited = set()
+        # check if we've already been to this vertex
         if vertex not in visited:
+            # add vertex to the path
             new_path = path + [vertex]
+            # add vertex to visited
             visited.add(vertex)
+            # base case: we've found our destination vertex, return the path to it
             if vertex == destination_vertex:
                 return new_path
-            neighbors_unvisited = True
+            # recurse over each neighbor
             for neighbor in self.get_neighbors(vertex):
-                if neighbor in visited:
-                    neighbors_unvisited = False
-            if neighbors_unvisited:
-                for neighbor in self.get_neighbors(vertex):
-                    path_or_none = self.dfs_recursive(neighbor, destination_vertex, new_path, visited)
-                    if path_or_none is not None:
-                        return path_or_none
+                # do the recursion
+                path_or_none = self.dfs_recursive(neighbor, destination_vertex, new_path, visited)
+                # then return the path if it exists
+                if path_or_none:
+                    return path_or_none
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
