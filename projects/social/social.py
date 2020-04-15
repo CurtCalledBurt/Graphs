@@ -122,42 +122,52 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    num_users = 1000
-    avg_friends = 5
-    sg.populate_graph(num_users, avg_friends)
-    # print("Friendships: \n", sg.friendships)
+    num_users = 10
+    avg_friends = 2
     user = 1
 
-    avg = 0
-    path_avg = 0
-    for user in range(num_users):
-        # get connections for the user we are currently on
-        connections = sg.get_all_social_paths(user + 1)
-        num_connections = len(connections)
-        # print("Connections: \n", connections)
-        # count people not in the keys of connections
-        count = 0
-        # keep track of average path length
-        path_length = 0
-        # loop through all users, checking connections with current user
-        for i in range(num_users):
-            if i+1 not in connections.keys():
-                pass
-                # print(i)
-                # count people not connected
-            else:
-                count += 1
-                # get path length of people who are connected
-                path = connections[i+1]
-                # print(path)
-                # add path length to sum of path lengths
-                path_length += len(path)
-        # get average path length for the current user
-        path_avg += path_length/num_connections
-        # print(f"Total people in network not connected to {user}: {count}")
-        avg += count
-    avg = avg/num_users
-    path_avg = path_avg/num_users
-    print(f"Average people not connected to a given user: {num_users - avg}")
-    print(f"Average Percentage of people connected to a given user: {(avg/num_users * 100)}")
-    print(f"Average path length between connected people: {path_avg}")
+    sg.populate_graph(num_users, avg_friends)
+
+    # Print all connections
+    print("Friendships: \n", sg.friendships)
+    connections = sg.get_all_social_paths(user)
+    print("Connections: \n", connections)
+
+    def percent_connected_and_avg_path_length(sg, num_users):
+
+        # Print average percentage of tree that is connected and average path length
+        avg = 0
+        path_avg = 0
+        for user in range(num_users):
+            # get connections for the user we are currently on
+            connections = sg.get_all_social_paths(user + 1)
+            num_connections = len(connections)
+            # print("Connections: \n", connections)
+            # count people not in the keys of connections
+            count = 0
+            # keep track of average path length
+            path_length = 0
+            # loop through all users, checking connections with current user
+            for i in range(num_users):
+                if i+1 not in connections.keys():
+                    pass
+                    # print(i)
+                    # count people not connected
+                else:
+                    count += 1
+                    # get path length of people who are connected
+                    path = connections[i+1]
+                    # print(path)
+                    # add path length to sum of path lengths
+                    path_length += len(path)
+            # get average path length for the current user
+            path_avg += path_length/num_connections
+            # print(f"Total people in network not connected to {user}: {count}")
+            avg += count
+        avg = avg/num_users
+        path_avg = path_avg/num_users
+        print(f"Average people not connected to a given user: {num_users - avg}")
+        print(f"Average Percentage of people connected to a given user: {(avg/num_users * 100)}")
+        print(f"Average path length between connected people: {path_avg}")
+    
+    percent_connected_and_avg_path_length(sg, num_users)
