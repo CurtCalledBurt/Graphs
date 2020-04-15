@@ -1,0 +1,16 @@
+
+1. To create 100 users with an average of 10 friends each, how many times would you need to call `add_friendship()`? Why?
+
+
+A 1. 500 times. Whenever we create 1 friendship, we link 2 people together. So after one `add_friendship()` call, 2 people both have 1 more friend. With 100 users with 10 friends each on average, that means we have a total of 1000 friendships. So, since `add_friendship()` increases total friendships by 2 each time we call it, we call it 500 times.
+
+
+
+
+2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
+
+
+A 2. I don't have any intuition on how to rigurously do the math here to get this answer, so I wrote some code to take 1000 users, give them 5 friends, chech the average number of people in their friends list, do all that x number of times and give the average number of people connected to a given user on average. The percentage usually hovered a little above 99.00% +/- .5%. 
+
+Doing a likewise process for the average length between the user and any given friend is about 5.5 +/- 0.5
+(get a user, add up all their path lengths, divide that number by their total connections. get that number for every user, add them up, and finally divide by the total number of users.)
