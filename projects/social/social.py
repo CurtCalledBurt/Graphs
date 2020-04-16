@@ -15,12 +15,15 @@ class SocialGraph:
         Creates a bi-directional friendship
         """
         if user_id == friend_id:
-            print("WARNING: You cannot be friends with yourself")
+            # print("WARNING: You cannot be friends with yourself")
+            return False
         elif friend_id in self.friendships[user_id] or user_id in self.friendships[friend_id]:
-            print("WARNING: Friendship already exists")
+            # print("WARNING: Friendship already exists")
+            return False
         else:
             self.friendships[user_id].add(friend_id)
             self.friendships[friend_id].add(user_id)
+            return True
 
     def add_user(self, name):
         """
@@ -49,26 +52,26 @@ class SocialGraph:
         for i in range(0, num_users):
             self.add_user(f"User {i + 1}")
 
+        # O(n) method
+        # randomly make friendships
+        # keeping new ones and rejecting dupes and the occasional friend with yourself
+        # until we get (num_users * avg_friendships // 2) - many friendships
 
-        # Create friendships
-        # Generate all possible friendships
-        possible_friendships = []
+        target_num_friendships = num_users * avg_friendships
+        total_num_friendships = 0
+        collisions = 0
 
-        # avoid dupes by making sure first number is smaller than second
-        for user_id in self.users:
-            for friend_id in range(user_id+1, self.last_id+1):
-                possible_friendships.append((user_id, friend_id))
+        while total_num_friendships < target_num_friendships:
+            user_id = random.randint(1, self.last_id)
+            friend_id = random.randint(1, self.last_id)
+
+            if self.add_friendship(user_id, friend_id):
+                total_num_friendships += 2
+            else:
+                collisions += 1
         
-        # random seed for testing code
-        # random.seed(a=2020)
+        print(f"Total Collisions: {collisions}")
 
-        # shuffle all possible friendships
-        random.shuffle(possible_friendships)
-
-        # create for first X pairs x is total // 2
-        for i in range(num_users * avg_friendships // 2):
-            friendship = possible_friendships[i]
-            self.add_friendship(friendship[0], friendship[1])
 
     def get_all_social_paths(self, user_id):
         """
@@ -100,7 +103,7 @@ class SocialGraph:
             user = node[0]
             # path is the second thing in a node
             path = node[1].copy()
-            # add the current user the path to itself
+            # add the current user to the path to itself
             path.append(user)
             if user not in visited.keys():
                 # if this user isn't already in our dictionary of users, add it and its path
@@ -122,15 +125,15 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    num_users = 10
-    avg_friends = 2
+    num_users = 1000
+    avg_friends = 5
     user = 1
 
     sg.populate_graph(num_users, avg_friends)
-
-    # Print all connections
-    print("Friendships: \n", sg.friendships)
     connections = sg.get_all_social_paths(user)
+
+    # # Print friendships and connections
+    print("Friendships: \n", sg.friendships)
     print("Connections: \n", connections)
 
     def percent_connected_and_avg_path_length(sg, num_users):
